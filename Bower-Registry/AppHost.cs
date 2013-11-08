@@ -7,7 +7,7 @@ namespace BowerRegistry
 {
     public class AppHost : AppHostHttpListenerBase
     {
-        public AppHost() : base(AppDomain.CurrentDomain.FriendlyName, AppDomain.CurrentDomain.GetAssemblies())
+        public AppHost() : base(AppDomain.CurrentDomain.FriendlyName, typeof(AppHost).Assembly)
         {
         }
 

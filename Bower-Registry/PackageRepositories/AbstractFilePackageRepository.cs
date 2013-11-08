@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace BowerRegistry
+namespace BowerRegistry.PackageRepositories
 {
     public abstract class AbstractFilePackageRepository : IPackageRepository
     {

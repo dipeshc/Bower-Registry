@@ -3,18 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry", "Bower-Registry\Bower-Registry.csproj", "{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry.Console", "Bower-Registry.Console\Bower-Registry.Console.csproj", "{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Bower-Registry\Bower-Registry.csproj
+		StartupItem = Bower-Registry.Console\Bower-Registry.Console.csproj
 	EndGlobalSection
 EndGlobal

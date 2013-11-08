@@ -1,7 +1,7 @@
 using System.IO;
 using ServiceStack.Text;
 
-namespace BowerRegistry
+namespace BowerRegistry.PackageRepositories
 {
     public class JsonFilePackageRepository : AbstractFilePackageRepository
     {

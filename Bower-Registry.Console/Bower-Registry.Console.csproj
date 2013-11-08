@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>BowerRegistry</RootNamespace>
-    <AssemblyName>Bower-Registry</AssemblyName>
+    <ProjectGuid>{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BowerRegistry.Console</RootNamespace>
+    <AssemblyName>Bower-Registry.Console</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,7 +18,8 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
+    <Commandlineparameters>server -p 8080</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -26,11 +27,17 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="ManyConsole">
+      <HintPath>..\packages\ManyConsole.0.4.2.17\lib\ManyConsole.dll</HintPath>
+    </Reference>
+    <Reference Include="NDesk.Options">
+      <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    </Reference>
     <Reference Include="ServiceStack.ServiceInterface">
       <HintPath>..\packages\ServiceStack.3.9.70\lib\net35\ServiceStack.ServiceInterface.dll</HintPath>
     </Reference>
@@ -46,22 +53,17 @@
     <Reference Include="ServiceStack.Text">
       <HintPath>..\packages\ServiceStack.Text.3.9.70\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
-    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AppHost.cs" />
-    <Compile Include="Services\PackagesService.cs" />
-    <Compile Include="Package.cs" />
-    <Compile Include="IPackageRepository.cs" />
-    <Compile Include="PackageRepositories\XmlFilePackageRepository.cs" />
-    <Compile Include="PackageRepositories\AbstractFilePackageRepository.cs" />
-    <Compile Include="PackageRepositories\JsonFilePackageRepository.cs" />
-    <Compile Include="PackageRepositories\AggregatePackageRepository.cs" />
+    <Compile Include="ServerCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="PackageRepositories\" />
+    <ProjectReference Include="..\Bower-Registry\Bower-Registry.csproj">
+      <Project>{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}</Project>
+      <Name>Bower-Registry</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
