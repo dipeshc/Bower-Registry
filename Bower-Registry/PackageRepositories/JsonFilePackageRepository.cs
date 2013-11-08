@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using ServiceStack.Text;
 
@@ -5,20 +6,29 @@ namespace BowerRegistry.PackageRepositories
 {
     public class JsonFilePackageRepository : AbstractFilePackageRepository
     {
-        string _filePath;
+        public readonly string FilePath;
 
         public JsonFilePackageRepository(string filePath)
         {
-            _filePath = filePath;
+            FilePath = filePath;
         }
 
-        protected override Package[] Packages
+        protected override void Load()
         {
-            get
+            using (var reader = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Read))
+                Packages = JsonSerializer.DeserializeFromStream<List<Package>>(reader);
+
+            if (Packages == null)
             {
-                using (var reader = new StreamReader(_filePath))
-                    return JsonSerializer.DeserializeFromReader<Package[]>(reader);
+                Packages = new List<Package>();
+                Save();
             }
+        }
+
+        protected override void Save()
+        {
+            using (var writer = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Write))
+                JsonSerializer.SerializeToStream(Packages, writer);
         }
     }
 }

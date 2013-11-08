@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using ServiceStack.Text;
 
@@ -5,20 +6,23 @@ namespace BowerRegistry.PackageRepositories
 {
     public class XmlFilePackageRepository : AbstractFilePackageRepository
     {
-        string _filePath;
+        public readonly string FilePath;
 
         public XmlFilePackageRepository(string filePath)
         {
-            _filePath = filePath;
+            FilePath = filePath;
         }
 
-        protected override Package[] Packages
+        protected override void Load()
         {
-            get
-            {
-                using (var reader = new StreamReader(_filePath))
-                    return XmlSerializer.DeserializeFromReader<Package[]>(reader);
-            }
+            using (var reader = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Read))
+                Packages = XmlSerializer.DeserializeFromStream<List<Package>>(reader);
+        }
+
+        protected override void Save()
+        {
+            using (var writer = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Write))
+                XmlSerializer.SerializeToStream(Packages, writer);
         }
     }
 }

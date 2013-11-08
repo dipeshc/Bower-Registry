@@ -1,3 +1,4 @@
+using System;
 using ServiceStack.Common.Web;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
@@ -12,13 +13,20 @@ namespace BowerRegistry.Services
     [Route("/packages/{Name}", "GET")]
     public class PackageRequest : IReturn<Package>
     {
-        public string Name{ get; set; }
+        public string Name { get; set; }
     }
 
     [Route("/packages/search/{Name}", "GET")]
     public class PackageSearchRequest : IReturn<Package[]>
     {
-        public string Name{ get; set; }
+        public string Name { get; set; }
+    }
+
+    [Route("/packages", "POST")]
+    public class NewPackageRequest : IReturnVoid
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
     public class PackagesService : Service
@@ -37,8 +45,8 @@ namespace BowerRegistry.Services
 
         public Package Get(PackageRequest request)
         {
-            if (string.IsNullOrEmpty(request.Name))
-                throw HttpError.NotFound("Package name must be provided.");
+            if(string.IsNullOrEmpty(request.Name))
+                throw new ArgumentNullException("Name");
 
             var package = _packageRepository.Get(request.Name);
             if(package == null)
@@ -48,10 +56,25 @@ namespace BowerRegistry.Services
 
         public Package[] Get(PackageSearchRequest request)
         {
-            if (string.IsNullOrEmpty(request.Name))
-                throw HttpError.NotFound("Package name must be provided.");
+            if(string.IsNullOrEmpty(request.Name))
+                throw new ArgumentNullException("Name");
 
             return _packageRepository.Search(request.Name);
+        }
+
+        public void Post(NewPackageRequest request)
+        {
+            if(string.IsNullOrEmpty(request.Name))
+                throw new ArgumentNullException("Name");
+
+            if(string.IsNullOrEmpty(request.Url))
+                throw new ArgumentNullException("Url");
+
+            _packageRepository.Add(new Package
+            {
+                Name = request.Name,
+                Url = request.Url
+            });
         }
     }
 }

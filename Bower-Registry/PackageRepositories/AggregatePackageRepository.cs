@@ -35,5 +35,10 @@ namespace BowerRegistry.PackageRepositories
             return PackageRepositories.SelectMany(pr => pr.Search(name))
                 .GroupBy(p => p.Name.ToLowerInvariant()).Select(Enumerable.First).ToArray();
         }
+
+        public void Add(Package package)
+        {
+            PackageRepositories.ToList().ForEach(pr => pr.Add(package));
+        }
     }
 }

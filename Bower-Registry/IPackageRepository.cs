@@ -5,5 +5,6 @@ namespace BowerRegistry
         Package[] List();
         Package Get(string name);
         Package[] Search(string name);
+        void Add(Package package);
     }
 }

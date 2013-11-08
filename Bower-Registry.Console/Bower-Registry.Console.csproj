@@ -8,7 +8,7 @@
     <ProjectGuid>{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>BowerRegistry.Console</RootNamespace>
-    <AssemblyName>Bower-Registry.Console</AssemblyName>
+    <AssemblyName>BowerRegistry</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
