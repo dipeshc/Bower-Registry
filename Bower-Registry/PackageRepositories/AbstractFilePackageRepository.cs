@@ -28,8 +28,13 @@ namespace BowerRegistry.PackageRepositories
 
         public void Add(Package package)
         {
-            Load();
-            Packages.Add(package);
+            var existingPackage = Get(package.Name);
+
+            if (existingPackage == null)
+                Packages.Add(package);
+            else
+                existingPackage.Url = package.Url;
+
             Save();
         }
 

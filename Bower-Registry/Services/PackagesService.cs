@@ -75,6 +75,8 @@ namespace BowerRegistry.Services
                 Name = request.Name,
                 Url = request.Url
             });
+
+            Response.StatusCode = 201;
         }
     }
 }
