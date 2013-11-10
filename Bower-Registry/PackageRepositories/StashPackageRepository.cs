@@ -63,7 +63,7 @@ namespace BowerRegistry.PackageRepositories
             var package = Packages.Where(p => p.Name.ToLowerInvariant().Contains(name.ToLowerInvariant())).ToArray();
 
             // If could not find based on cache, then reload via list and try again.
-            if (package.Count() == 0)
+            if (!package.Any())
             {
                 List();
                 package = Packages.Where(p => p.Name.ToLowerInvariant().Contains(name.ToLowerInvariant())).ToArray();
@@ -81,7 +81,7 @@ namespace BowerRegistry.PackageRepositories
         protected string MakeSSHUri(string repoSlug)
         {
             var baseEndpoint = BaseUri.ToLower().Replace("http://", "").Replace("https://", "");
-            return string.Format("ssh://{0}:{1}/{2}/{3}.git", baseEndpoint, SshPort, ProjectKey, repoSlug);
+            return string.Format("ssh://git@{0}:{1}/{2}/{3}.git", baseEndpoint, SshPort, ProjectKey, repoSlug);
         }
 
         public class StashProjectRepos
