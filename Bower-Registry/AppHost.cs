@@ -1,4 +1,3 @@
-using System;
 using Funq;
 using ServiceStack.Text;
 using ServiceStack.WebHost.Endpoints;
@@ -7,7 +6,7 @@ namespace BowerRegistry
 {
     public class AppHost : AppHostHttpListenerBase
     {
-        public AppHost() : base(AppDomain.CurrentDomain.FriendlyName, typeof(AppHost).Assembly)
+        public AppHost() : base("BowerRegistry", typeof(AppHost).Assembly)
         {
         }
 
