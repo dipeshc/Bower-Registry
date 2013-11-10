@@ -9,6 +9,8 @@ namespace BowerRegistry.PackageRepositories
     {
         public readonly string BaseUri;
         public readonly string ProjectKey;
+        public readonly string Username;
+        public readonly string Password;
         public readonly int SshPort;
 
         protected Package[] Packages = new Package[0];
@@ -17,16 +19,21 @@ namespace BowerRegistry.PackageRepositories
         {
             BaseUri = baseUri;
             ProjectKey = projectKey;
+            Username = username;
+            Password = password;
             SshPort = sshPort;
         }
 
         public Package[] List()
         {
-            var client = new RestClient(BaseUri);
+            var client = new RestClient(BaseUri)
+            {
+                Authenticator = new HttpBasicAuthenticator(Username, Password)
+            };
             var request = new RestRequest(string.Format("/rest/api/1.0/projects/{0}/repos", ProjectKey), Method.GET);
             var response = client.Get<StashProjectRepos>(request);
 
-            Packages = response.Data.Repos.Select(repo => new Package
+            Packages = response.Data.Values.Select(repo => new Package
             {
                 Name = repo.Slug,
                 Url = MakeSSHUri(repo.Slug)
@@ -56,7 +63,7 @@ namespace BowerRegistry.PackageRepositories
             var package = Packages.Where(p => p.Name.ToLowerInvariant().Contains(name.ToLowerInvariant())).ToArray();
 
             // If could not find based on cache, then reload via list and try again.
-            if (package == null)
+            if (package.Count() == 0)
             {
                 List();
                 package = Packages.Where(p => p.Name.ToLowerInvariant().Contains(name.ToLowerInvariant())).ToArray();
@@ -73,13 +80,14 @@ namespace BowerRegistry.PackageRepositories
 
         protected string MakeSSHUri(string repoSlug)
         {
-            return string.Format("ssh://{0}:{1}/{2}/{3}.git", BaseUri, SshPort, ProjectKey, repoSlug);
+            var baseEndpoint = BaseUri.ToLower().Replace("http://", "").Replace("https://", "");
+            return string.Format("ssh://{0}:{1}/{2}/{3}.git", baseEndpoint, SshPort, ProjectKey, repoSlug);
         }
 
         public class StashProjectRepos
         {
             public int Start { get; set; }
-            public List<StashRepos> Repos { get; set; }
+            public List<StashRepos> Values { get; set; }
         }
 
         public class StashRepos
