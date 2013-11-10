@@ -12,6 +12,11 @@ namespace BowerRegistry.Console
         public string Json;
         public string Xml;
 
+        public string StashBaseUri;
+        public string StashProjectKey;
+        public string StashUsername;
+        public string StashPassword;
+
         public ServerCommand()
         {
             IsCommand("server", "hosts the bower registry.");
@@ -19,6 +24,11 @@ namespace BowerRegistry.Console
 
             HasOption("json=", "Path to json document containing serialized package repository.", o => Json = o);
             HasOption("xml=", "Path to xml document containing serialized package repository.", o => Xml = o);
+
+            HasOption("stashBaseUri=", "Stash base endpoint (e.g. http://stash.atlassian.com", o => StashBaseUri = o);
+            HasOption("stashProjectKey=", "Stash root project key.", o => Xml = o);
+            HasOption("stashUsername=", "Stash username", o => Xml = o);
+            HasOption("stashPassword=", "Stash password.", o => Xml = o);
 
             SkipsCommandSummaryBeforeRunning();
         }
@@ -32,6 +42,9 @@ namespace BowerRegistry.Console
 
             if (!string.IsNullOrEmpty(Xml))
                 packageRepositories.Add(new XmlFilePackageRepository(Xml));
+
+            if (!string.IsNullOrEmpty(StashBaseUri) && !string.IsNullOrEmpty(StashProjectKey))
+                packageRepositories.Add(new StashPackageRepository(StashBaseUri, StashProjectKey, StashUsername, StashPassword));
 
             if (packageRepositories.Count == 0)
                 packageRepositories.Add(new InMemoryPackageRepository());

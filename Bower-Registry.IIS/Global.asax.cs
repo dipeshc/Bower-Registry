@@ -13,6 +13,10 @@ namespace BowerRegistry.IIS
             // Get settings from config.
             var json = ConfigurationManager.AppSettings ["Json"];
             var xml = ConfigurationManager.AppSettings ["Xml"];
+            var stashBaseUri = ConfigurationManager.AppSettings ["Stash.BaseUri"];
+            var stashProjectKey = ConfigurationManager.AppSettings ["Stash.ProjectKey"];
+            var stashUsername = ConfigurationManager.AppSettings ["Stash.Username"];
+            var stashPassword = ConfigurationManager.AppSettings ["Stash.Password"];
 
             // Make package reposiroties.
             var packageRepositories = new List<IPackageRepository>();
@@ -25,6 +29,9 @@ namespace BowerRegistry.IIS
 
             if (packageRepositories.Count == 0)
                 packageRepositories.Add(new InMemoryPackageRepository());
+
+            if (!string.IsNullOrEmpty(stashBaseUri) && !string.IsNullOrEmpty(stashProjectKey))
+                packageRepositories.Add(new StashPackageRepository(stashBaseUri, stashProjectKey, stashUsername, stashPassword));
 
             // Start app.
             var appHost = new AppHost();
