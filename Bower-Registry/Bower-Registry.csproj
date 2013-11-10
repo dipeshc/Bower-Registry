@@ -58,6 +58,7 @@
     <Compile Include="PackageRepositories\AbstractFilePackageRepository.cs" />
     <Compile Include="PackageRepositories\JsonFilePackageRepository.cs" />
     <Compile Include="PackageRepositories\AggregatePackageRepository.cs" />
+    <Compile Include="PackageRepositories\InMemoryPackageRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

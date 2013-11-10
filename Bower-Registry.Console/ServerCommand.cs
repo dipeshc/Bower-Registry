@@ -17,7 +17,7 @@ namespace BowerRegistry.Console
             IsCommand("server", "hosts the bower registry.");
             HasOption("p|port=", "Specifies the port that the server will listen on [default 80].", o => Port = int.Parse(o));
 
-            HasOption("json=", "Path to json document containing serialized package repository [defaults to \"packages.json\" if neither --json or --xml provided].", o => Json = o);
+            HasOption("json=", "Path to json document containing serialized package repository.", o => Json = o);
             HasOption("xml=", "Path to xml document containing serialized package repository.", o => Xml = o);
 
             SkipsCommandSummaryBeforeRunning();
@@ -33,8 +33,8 @@ namespace BowerRegistry.Console
             if (!string.IsNullOrEmpty(Xml))
                 packageRepositories.Add(new XmlFilePackageRepository(Xml));
 
-            if(packageRepositories.Count == 0)
-                packageRepositories.Add(new JsonFilePackageRepository("packages.json"));
+            if (packageRepositories.Count == 0)
+                packageRepositories.Add(new InMemoryPackageRepository());
 
             var listener = string.Format("http://*:{0}/", Port);
 
