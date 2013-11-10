@@ -17,8 +17,8 @@ namespace BowerRegistry.Console
             IsCommand("server", "hosts the bower registry.");
             HasOption("p|port=", "Specifies the port that the server will listen on [default 80].", o => Port = int.Parse(o));
 
-            HasOption("j|json=", "Path to json document containing serialized package repository [defaults to \"packages.json\" if neither --json or --xml provided].", o => Json = o);
-            HasOption("x|xml=", "Path to xml document containing serialized package repository.", o => Xml = o);
+            HasOption("json=", "Path to json document containing serialized package repository [defaults to \"packages.json\" if neither --json or --xml provided].", o => Json = o);
+            HasOption("xml=", "Path to xml document containing serialized package repository.", o => Xml = o);
 
             SkipsCommandSummaryBeforeRunning();
         }
@@ -27,18 +27,14 @@ namespace BowerRegistry.Console
         {
             var packageRepositories = new List<IPackageRepository>();
 
-            if (string.IsNullOrEmpty(Json) && string.IsNullOrEmpty(Xml))
-            {
-                packageRepositories.Add(new JsonFilePackageRepository("packages.json"));
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(Json))
-                    packageRepositories.Add(new JsonFilePackageRepository(Json));
+            if (!string.IsNullOrEmpty(Json))
+                packageRepositories.Add(new JsonFilePackageRepository(Json));
 
-                if (!string.IsNullOrEmpty(Xml))
-                    packageRepositories.Add(new XmlFilePackageRepository(Xml));
-            }
+            if (!string.IsNullOrEmpty(Xml))
+                packageRepositories.Add(new XmlFilePackageRepository(Xml));
+
+            if(packageRepositories.Count == 0)
+                packageRepositories.Add(new JsonFilePackageRepository("packages.json"));
 
             var listener = string.Format("http://*:{0}/", Port);
 
