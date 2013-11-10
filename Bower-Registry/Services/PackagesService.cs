@@ -70,13 +70,19 @@ namespace BowerRegistry.Services
             if(string.IsNullOrEmpty(request.Url))
                 throw new ArgumentNullException("Url");
 
-            _packageRepository.Add(new Package
+            try
             {
-                Name = request.Name,
-                Url = request.Url
-            });
-
-            Response.StatusCode = 201;
+                _packageRepository.Add(new Package
+                {
+                    Name = request.Name,
+                    Url = request.Url
+                });
+                Response.StatusCode = 201;
+            }
+            catch(UnauthorizedAccessException)
+            {
+                Response.StatusCode = 401;
+            }
         }
     }
 }

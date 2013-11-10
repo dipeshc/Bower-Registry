@@ -47,6 +47,9 @@
       <HintPath>..\packages\ServiceStack.Text.3.9.70\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.104.3.3\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +62,7 @@
     <Compile Include="PackageRepositories\JsonFilePackageRepository.cs" />
     <Compile Include="PackageRepositories\AggregatePackageRepository.cs" />
     <Compile Include="PackageRepositories\InMemoryPackageRepository.cs" />
+    <Compile Include="PackageRepositories\StashPackageRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
