@@ -13,6 +13,11 @@ namespace BowerRegistry
         public override void Configure(Container container)
         {
             JsConfig.EmitCamelCaseNames = true;
+
+            SetConfig(new EndpointHostConfig
+            {
+                DefaultRedirectPath = "packages"
+            });
         }
     }
 }

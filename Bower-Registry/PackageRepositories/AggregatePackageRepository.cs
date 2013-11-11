@@ -12,7 +12,7 @@ namespace BowerRegistry.PackageRepositories
             PackageRepositories = packageRepositories.ToArray();
         }
 
-        public bool Readonly { get { return !PackageRepositories.Any(pr => !pr.Readonly); } }
+        public bool IsReadonly { get { return !PackageRepositories.Any(pr => !pr.IsReadonly); } }
 
         public Package[] List()
         {
@@ -39,7 +39,7 @@ namespace BowerRegistry.PackageRepositories
 
         public void Add(Package package)
         {
-            PackageRepositories.Where(pr => !pr.Readonly).ToList().ForEach(pr => pr.Add(package));
+            PackageRepositories.Where(pr => !pr.IsReadonly).ToList().ForEach(pr => pr.Add(package));
         }
     }
 }

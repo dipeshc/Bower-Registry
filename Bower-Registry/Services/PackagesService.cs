@@ -70,7 +70,7 @@ namespace BowerRegistry.Services
             if(string.IsNullOrEmpty(request.Url))
                 throw new ArgumentNullException("Url");
 
-            if (_packageRepository.Readonly)
+            if (_packageRepository.IsReadonly)
             {
                 Response.StatusCode = 403;
                 return;

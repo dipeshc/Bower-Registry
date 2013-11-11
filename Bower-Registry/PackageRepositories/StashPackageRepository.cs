@@ -15,7 +15,7 @@ namespace BowerRegistry.PackageRepositories
 
         protected Package[] Packages = new Package[0];
 
-        public bool Readonly { get { return true; } }
+        public bool IsReadonly { get { return true; } }
 
         public StashPackageRepository(string baseUri, string projectKey, string username="", string password="", int sshPort=7999)
         {
