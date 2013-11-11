@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry.Console", "B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{571209C8-CC56-4351-9B51-91126F9EA78E}"
 	ProjectSection(SolutionItems) = preProject
-		repositories.config = repositories.config
+		packages\repositories.config = packages\repositories.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry.IIS", "Bower-Registry.IIS\Bower-Registry.IIS.csproj", "{22321436-0864-4759-A3BE-2B12F3912E77}"
