@@ -8,6 +8,8 @@ namespace BowerRegistry.PackageRepositories
     {
         protected List<Package> Packages = new List<Package>();
 
+        public bool Readonly { get { return false; } }
+
         public Package[] List()
         {
             return Packages.ToArray();

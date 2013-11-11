@@ -15,6 +15,8 @@ namespace BowerRegistry.PackageRepositories
 
         protected Package[] Packages = new Package[0];
 
+        public bool Readonly { get { return true; } }
+
         public StashPackageRepository(string baseUri, string projectKey, string username="", string password="", int sshPort=7999)
         {
             BaseUri = baseUri;
@@ -74,8 +76,7 @@ namespace BowerRegistry.PackageRepositories
 
         public void Add(Package package)
         {
-            // This repository is readonly, to add a new package it must be added via the regular stash repo mechanism.
-            throw new UnauthorizedAccessException();
+            throw new InvalidOperationException("StashPackageRepository is readonly, cannot Add package.");
         }
 
         protected string MakeSSHUri(string repoSlug)

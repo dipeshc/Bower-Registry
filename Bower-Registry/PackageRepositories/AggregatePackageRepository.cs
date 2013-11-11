@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -12,6 +11,8 @@ namespace BowerRegistry.PackageRepositories
         {
             PackageRepositories = packageRepositories.ToArray();
         }
+
+        public bool Readonly { get { return !PackageRepositories.Any(pr => !pr.Readonly); } }
 
         public Package[] List()
         {
@@ -38,7 +39,7 @@ namespace BowerRegistry.PackageRepositories
 
         public void Add(Package package)
         {
-            PackageRepositories.ToList().ForEach(pr => pr.Add(package));
+            PackageRepositories.Where(pr => !pr.Readonly).ToList().ForEach(pr => pr.Add(package));
         }
     }
 }
