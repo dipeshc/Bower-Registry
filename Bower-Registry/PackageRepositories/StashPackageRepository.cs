@@ -11,18 +11,20 @@ namespace BowerRegistry.PackageRepositories
         public readonly string ProjectKey;
         public readonly string Username;
         public readonly string Password;
+        public readonly bool SshInsteadOfHttp;
         public readonly int SshPort;
 
         protected Package[] Packages = new Package[0];
 
         public bool IsReadonly { get { return true; } }
 
-        public StashPackageRepository(string baseUri, string projectKey, string username="", string password="", int sshPort=7999)
+        public StashPackageRepository(string baseUri, string projectKey, string username="", string password="", bool sshInsteadOfHttp=false, int sshPort=7999)
         {
             BaseUri = baseUri;
             ProjectKey = projectKey;
             Username = username;
             Password = password;
+            SshInsteadOfHttp = sshInsteadOfHttp;
             SshPort = sshPort;
         }
 
@@ -38,7 +40,7 @@ namespace BowerRegistry.PackageRepositories
             Packages = response.Data.Values.Select(repo => new Package
             {
                 Name = repo.Slug,
-                Url = MakeSSHUri(repo.Slug)
+                Url = SshInsteadOfHttp ? MakeSshUri(repo.Slug) : MakeHttpUri(repo.Slug)
             }).ToArray();
 
             return Packages;
@@ -79,10 +81,15 @@ namespace BowerRegistry.PackageRepositories
             throw new InvalidOperationException("StashPackageRepository is readonly, cannot Add package.");
         }
 
-        protected string MakeSSHUri(string repoSlug)
+        protected string MakeSshUri(string repoSlug)
         {
             var baseEndpoint = BaseUri.ToLower().Replace("http://", "").Replace("https://", "");
             return string.Format("ssh://git@{0}:{1}/{2}/{3}.git", baseEndpoint, SshPort, ProjectKey, repoSlug);
+        }
+
+        protected string MakeHttpUri(string repoSlug)
+        {
+            return string.Format("{0}/scm/{1}/{2}.git", BaseUri, ProjectKey, repoSlug);
         }
 
         public class StashProjectRepos

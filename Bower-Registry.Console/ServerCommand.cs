@@ -16,6 +16,7 @@ namespace BowerRegistry.Console
         public string StashProjectKey;
         public string StashUsername;
         public string StashPassword;
+        public bool StashSshInsteadOfHttp;
 
         public ServerCommand()
         {
@@ -26,9 +27,10 @@ namespace BowerRegistry.Console
             HasOption("xml=", "Path to xml document containing serialized package repository.", o => Xml = o);
 
             HasOption("stashBaseUri=", "Stash base endpoint (e.g. http://stash.atlassian.com", o => StashBaseUri = o);
-            HasOption("stashProjectKey=", "Stash root project key.", o => Xml = o);
-            HasOption("stashUsername=", "Stash username", o => Xml = o);
-            HasOption("stashPassword=", "Stash password.", o => Xml = o);
+            HasOption("stashProjectKey=", "Stash root project key.", o => StashProjectKey = o);
+            HasOption("stashUsername=", "Stash username", o => StashUsername = o);
+            HasOption("stashPassword=", "Stash password.", o => StashPassword = o);
+            HasOption("stashSSH=", "Stash git uri should be based on the SSH protocol instead of HTTP.", o => StashSshInsteadOfHttp = o != null);
 
             SkipsCommandSummaryBeforeRunning();
         }
@@ -44,7 +46,7 @@ namespace BowerRegistry.Console
                 packageRepositories.Add(new XmlFilePackageRepository(Xml));
 
             if (!string.IsNullOrEmpty(StashBaseUri) && !string.IsNullOrEmpty(StashProjectKey))
-                packageRepositories.Add(new StashPackageRepository(StashBaseUri, StashProjectKey, StashUsername, StashPassword));
+                packageRepositories.Add(new StashPackageRepository(StashBaseUri, StashProjectKey, StashUsername, StashPassword, StashSshInsteadOfHttp));
 
             if (packageRepositories.Count == 0)
                 packageRepositories.Add(new InMemoryPackageRepository());

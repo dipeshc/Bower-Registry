@@ -17,6 +17,9 @@ namespace BowerRegistry.IIS
             var stashProjectKey = ConfigurationManager.AppSettings ["Stash.ProjectKey"];
             var stashUsername = ConfigurationManager.AppSettings ["Stash.Username"];
             var stashPassword = ConfigurationManager.AppSettings ["Stash.Password"];
+            var stashSshInsteadOfHttp = false;
+            if (ConfigurationManager.AppSettings["Stash.SSH"] != null)
+                stashSshInsteadOfHttp = ConfigurationManager.AppSettings["Stash.SSH"] == "true";
 
             // Make package reposiroties.
             var packageRepositories = new List<IPackageRepository>();
@@ -31,7 +34,7 @@ namespace BowerRegistry.IIS
                 packageRepositories.Add(new InMemoryPackageRepository());
 
             if (!string.IsNullOrEmpty(stashBaseUri) && !string.IsNullOrEmpty(stashProjectKey))
-                packageRepositories.Add(new StashPackageRepository(stashBaseUri, stashProjectKey, stashUsername, stashPassword));
+                packageRepositories.Add(new StashPackageRepository(stashBaseUri, stashProjectKey, stashUsername, stashPassword, stashSshInsteadOfHttp));
 
             // Start app.
             var appHost = new AppHost();
