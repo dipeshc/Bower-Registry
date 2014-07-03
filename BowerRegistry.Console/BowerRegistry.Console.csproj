@@ -62,9 +62,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Bower-Registry\Bower-Registry.csproj">
+    <ProjectReference Include="..\BowerRegistry\BowerRegistry.csproj">
       <Project>{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}</Project>
-      <Name>Bower-Registry</Name>
+      <Name>BowerRegistry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

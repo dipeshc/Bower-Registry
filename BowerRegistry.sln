@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry", "Bower-Registry\Bower-Registry.csproj", "{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowerRegistry", "BowerRegistry\BowerRegistry.csproj", "{A2AF75D3-4A0F-4B76-B579-F502ABC2B175}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry.Console", "Bower-Registry.Console\Bower-Registry.Console.csproj", "{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowerRegistry.Console", "BowerRegistry.Console\BowerRegistry.Console.csproj", "{8A68FFCE-3A00-49BE-B6D0-43D3B6BC7A82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowerRegistry.IIS", "BowerRegistry.IIS\BowerRegistry.IIS.csproj", "{22321436-0864-4759-A3BE-2B12F3912E77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{571209C8-CC56-4351-9B51-91126F9EA78E}"
-	ProjectSection(SolutionItems) = preProject
-		packages\repositories.config = packages\repositories.config
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bower-Registry.IIS", "Bower-Registry.IIS\Bower-Registry.IIS.csproj", "{22321436-0864-4759-A3BE-2B12F3912E77}"
+  ProjectSection(SolutionItems) = preProject
+    packages\repositories.config = packages\repositories.config
+  EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +34,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Bower-Registry.IIS\Bower-Registry.IIS.csproj
+		StartupItem = BowerRegistry.IIS\BowerRegistry.IIS.csproj
 	EndGlobalSection
 EndGlobal
