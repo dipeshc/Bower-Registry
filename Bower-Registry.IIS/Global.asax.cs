@@ -3,43 +3,45 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web;
 using BowerRegistry.PackageRepositories;
+using BowerRegistry.IIS.Configuration;
 
 namespace BowerRegistry.IIS
 {
-    public class Global : HttpApplication
-    {
-        protected void Application_Start(Object sender, EventArgs e)
-        {
-            // Get settings from config.
-            var json = ConfigurationManager.AppSettings ["Json"];
-            var xml = ConfigurationManager.AppSettings ["Xml"];
-            var stashBaseUri = ConfigurationManager.AppSettings ["Stash.BaseUri"];
-            var stashProjectKey = ConfigurationManager.AppSettings ["Stash.ProjectKey"];
-            var stashUsername = ConfigurationManager.AppSettings ["Stash.Username"];
-            var stashPassword = ConfigurationManager.AppSettings ["Stash.Password"];
-            var stashSshInsteadOfHttp = false;
-            if (ConfigurationManager.AppSettings["Stash.SSH"] != null)
-                stashSshInsteadOfHttp = ConfigurationManager.AppSettings["Stash.SSH"] == "true";
+	public class Global : HttpApplication
+	{
+		protected void Application_Start(Object sender, EventArgs e)
+		{
+			// Make package reposiroties.
+			var packageRepositories = new List<IPackageRepository>();
 
-            // Make package reposiroties.
-            var packageRepositories = new List<IPackageRepository>();
+			// Get bowerRegistryConfigurationSection
+			var bowerRegistryConfigurationSection = ConfigurationManager.GetSection(BowerRegistryConfigurationSection.SectionName) as BowerRegistryConfigurationSection;
+			if (bowerRegistryConfigurationSection != null)
+			{
+				// Get custom repositories.
+				foreach (var packageRepository in bowerRegistryConfigurationSection.Repositories)
+				{
+					if (packageRepository.GetType() == typeof(InMemory))
+						packageRepositories.Add(new InMemoryPackageRepository());
 
-            if (!string.IsNullOrEmpty(json))
-                packageRepositories.Add(new JsonFilePackageRepository(json));
+					if (packageRepository.GetType() == typeof(XmlFile))
+						packageRepositories.Add(new XmlFilePackageRepository(((XmlFile)packageRepository).FilePath));
 
-            if (!string.IsNullOrEmpty(xml))
-                packageRepositories.Add(new XmlFilePackageRepository(xml));
+					if (packageRepository.GetType() == typeof(JsonFile))
+						packageRepositories.Add(new JsonFilePackageRepository(((JsonFile)packageRepository).FilePath));
 
-            if (packageRepositories.Count == 0)
-                packageRepositories.Add(new InMemoryPackageRepository());
+					if(packageRepository.GetType() == typeof(Stash))
+					{
+						var stash = packageRepository as Stash; 
+						packageRepositories.Add(new StashPackageRepository(stash.BaseUri, stash.ProjectKey, stash.Username, stash.Password, stash.UseSSH));
+					}
+				}
+			}
 
-            if (!string.IsNullOrEmpty(stashBaseUri) && !string.IsNullOrEmpty(stashProjectKey))
-                packageRepositories.Add(new StashPackageRepository(stashBaseUri, stashProjectKey, stashUsername, stashPassword, stashSshInsteadOfHttp));
-
-            // Start app.
-            var appHost = new AppHost();
-            appHost.Init();
-            appHost.Container.Register<IPackageRepository>(_ => new AggregatePackageRepository(packageRepositories));
-        }
-    }
+			// Start app.
+			var appHost = new AppHost();
+			appHost.Init();
+			appHost.Container.Register<IPackageRepository>(_ => new AggregatePackageRepository(packageRepositories));
+		}
+	}
 }
