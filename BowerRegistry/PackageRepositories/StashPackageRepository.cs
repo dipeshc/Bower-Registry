@@ -35,7 +35,21 @@ namespace BowerRegistry.PackageRepositories
                 Authenticator = new HttpBasicAuthenticator(Username, Password)
             };
             var request = new RestRequest(string.Format("/rest/api/1.0/projects/{0}/repos", ProjectKey), Method.GET);
-            var response = client.Get<StashProjectRepos>(request);
+            
+            IRestResponse<StashProjectRepos> response;
+            try
+            {
+                response = client.Get<StashProjectRepos>(request);
+            }
+            catch (Exception)
+            {
+                return new Package[0];
+            }
+            
+            if (response == null || response.Data == null || response.Data.Values == null || !response.Data.Values.Any())
+            {
+                return new Package[0];
+            }
 
             Packages = response.Data.Values.Select(repo => new Package
             {
